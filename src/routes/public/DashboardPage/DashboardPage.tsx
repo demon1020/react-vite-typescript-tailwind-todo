@@ -5,6 +5,7 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import Footer from "./Footer";
 import Settings from "../SettingsPage/SettingsPage";
+import TaskListing from "../TaskPage/TaskPage";
 
 const DashboardPage = () => {
   const [activePage, setActivePage] = useState("Task Listings");
@@ -45,11 +46,3 @@ const DashboardPage = () => {
 };
 
 export default DashboardPage;
-
-function TaskListing() {
-  return (
-    <div className="flex items-center justify-center bg-gray-100">
-      Task Listings Page Content
-    </div>
-  );
-}
