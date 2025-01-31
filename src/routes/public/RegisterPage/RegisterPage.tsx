@@ -162,7 +162,11 @@ export default function RegisterPage() {
             className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition mt-6"
             disabled={loading} // Disable button during API call
           >
-            {loading ? "Registering..." : "Register"}
+            {loading ? (
+              <span className="loading loading-spinner loading-lg"></span>
+            ) : (
+              "Register"
+            )}
           </button>
         </form>
 

@@ -124,16 +124,38 @@ const SettingsPage = () => {
           )}
         </div>
 
+        <div className="mb-4">
+          <label className="block text-gray-600">Theme</label>
+          <input
+            type="checkbox"
+            value="synthwave"
+            className="toggle theme-controller"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-600">Notification</label>
+          <input
+            type="checkbox"
+            value="synthwave"
+            className="toggle theme-controller"
+          />
+        </div>
+
         {errors.apiError && (
           <p className="text-red-500 text-sm mb-4">{errors.apiError}</p>
         )}
 
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded-lg"
+          className="w-full bg-blue-500 text-white py-2 rounded-lg mt-4"
           disabled={isLoading}
         >
-          {isLoading ? "Updating..." : "Save Changes"}
+          {isLoading ? (
+            <span className="loading loading-spinner loading-lg"></span>
+          ) : (
+            "Save Changes"
+          )}
         </button>
       </form>
     </div>

@@ -14,7 +14,9 @@ const TaskList = () => {
     <div className="p-6 bg-white shadow rounded-lg">
       <h2 className="text-2xl font-bold mb-4">Task List</h2>
 
-      {isLoading && <p>Loading tasks...</p>}
+      {isLoading && (
+        <span className="loading loading-spinner loading-lg"></span>
+      )}
       {!isLoading && tasks.length === 0 && <p>No tasks found.</p>}
 
       <ul>
@@ -55,8 +57,7 @@ const TaskList = () => {
         >
           « Previous
         </button>
-        <button className="join-item btn btn-outline">
-          {" "}
+        <button className="join-item btn btn-outline bg-black text-white">
           Page {skip === 0 ? 1 : skip / 3}
         </button>
         <button

@@ -1,3 +1,5 @@
+import LogoutDialog from "../../../components/shared/LogoutDialog";
+
 interface SidebarProps {
   activePage: string;
   goToLogin: () => void;
@@ -29,9 +31,8 @@ export default function Sidebar({
         >
           Task Listings
         </li>
-        <li className="cursor-pointer py-2 text-red-300" onClick={goToLogin}>
-          Logout
-        </li>
+
+        <LogoutDialog onConfirm={goToLogin} />
       </ul>
     </div>
   );
