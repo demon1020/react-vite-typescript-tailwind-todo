@@ -1,13 +1,10 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import api from "../../../services/ApiService"; // Import the api instance
 import useSettingsStore from "../../../store/useUserStore"; // Zustand store
-import { routerPaths } from "../../../constants/routes";
 import { toast } from "react-toastify"; // Import toast
 import "react-toastify/dist/ReactToastify.css"; // Import toast styles
 
 const SettingsPage = () => {
-  const navigate = useNavigate();
   const {
     username,
     email,
