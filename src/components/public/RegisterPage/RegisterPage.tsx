@@ -1,36 +1,10 @@
+// pages/RegisterPage.tsx
 import { useNavigate } from "react-router-dom";
-import { create } from "zustand";
-import { routerPaths } from "../../../constants/routes";
 import { useState } from "react";
-import api from "../../../services/ApiService"; // Assuming you've set up your API client like in previous responses
-
-// Define types for store state and actions
-interface RegisterState {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  errors: Record<string, string>;
-  setUsername: (username: string) => void;
-  setEmail: (email: string) => void;
-  setPassword: (password: string) => void;
-  setConfirmPassword: (confirmPassword: string) => void;
-  setErrors: (errors: Record<string, string>) => void;
-}
-
-// Zustand store for managing form state
-const useRegisterStore = create<RegisterState>((set) => ({
-  username: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
-  errors: {},
-  setUsername: (username) => set({ username }),
-  setEmail: (email) => set({ email }),
-  setPassword: (password) => set({ password }),
-  setConfirmPassword: (confirmPassword) => set({ confirmPassword }),
-  setErrors: (errors) => set({ errors }),
-}));
+import { routerPaths } from "../../../constants/routes";
+import api from "../../../services/ApiService";
+import useRegisterStore from "../../../store/registerStore";
+import bcrypt from "bcryptjs";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -69,29 +43,26 @@ export default function RegisterPage() {
     e.preventDefault();
     if (!validateForm()) return;
 
-    // Set loading to true
     setLoading(true);
     setApiError(null);
 
     try {
-      // Call the registration API (modify URL as per your API setup)
+      // Hash the password before sending it to the API
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      // Call the registration API
       const response = await api.post("/users/add", {
         username,
         email,
-        password,
+        password: hashedPassword, // Send the hashed password
       });
 
-      // Handle successful response (registration)
       console.log("User registered:", response);
-
-      // Navigate to login page after successful registration
       navigate(routerPaths.LOGIN_PAGE);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      // Handle API errors
       setApiError(error?.response?.data?.message || "An error occurred");
     } finally {
-      // Set loading to false once the request is completed
       setLoading(false);
     }
   };
@@ -108,7 +79,7 @@ export default function RegisterPage() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              disabled={loading} // Disable input during API call
+              disabled={loading}
             />
             {errors.username && (
               <p className="text-red-500 text-sm">{errors.username}</p>
@@ -122,7 +93,7 @@ export default function RegisterPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              disabled={loading} // Disable input during API call
+              disabled={loading}
             />
             {errors.email && (
               <p className="text-red-500 text-sm">{errors.email}</p>
@@ -136,7 +107,7 @@ export default function RegisterPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              disabled={loading} // Disable input during API call
+              disabled={loading}
             />
             {errors.password && (
               <p className="text-red-500 text-sm">{errors.password}</p>
@@ -150,7 +121,7 @@ export default function RegisterPage() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              disabled={loading} // Disable input during API call
+              disabled={loading}
             />
             {errors.confirmPassword && (
               <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
@@ -160,7 +131,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition mt-6"
-            disabled={loading} // Disable button during API call
+            disabled={loading}
           >
             {loading ? (
               <span className="loading loading-spinner loading-lg"></span>

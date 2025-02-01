@@ -3,6 +3,7 @@ import api from "../../../services/ApiService"; // Import the api instance
 import useSettingsStore from "../../../store/useUserStore"; // Zustand store
 import { toast } from "react-toastify"; // Import toast
 import "react-toastify/dist/ReactToastify.css"; // Import toast styles
+import bcrypt from "bcryptjs";
 
 const SettingsPage = () => {
   const {
@@ -21,9 +22,9 @@ const SettingsPage = () => {
   useEffect(() => {
     // Ideally, fetch the user data on page load and set it in the store
     // For demo purposes, we are not fetching from the API
-    setUsername("JohnDoe");
-    setEmail("john.doe@example.com");
-    setPassword("password123");
+    setUsername("emilys");
+    setEmail("emily.johnson@x.dummyjson.com");
+    setPassword("emilyspass");
   }, [setUsername, setEmail, setPassword]);
 
   const validateForm = (): boolean => {
@@ -46,13 +47,16 @@ const SettingsPage = () => {
     setIsLoading(true);
 
     try {
+      // Hash the password before sending it to the API
+      const hashedPassword = await bcrypt.hash(password, 10);
+
       // Perform the API call to update the user
       const data = await api.put<{ message: string }>(
-        `/users/2`, // Assuming the user's ID is 2 for update
+        `/users/1`, // Assuming the user's ID is 2 for update
         {
           username,
           email,
-          password,
+          password: hashedPassword,
         }
       );
 

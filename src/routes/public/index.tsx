@@ -1,8 +1,8 @@
+import DashboardPage from "../../components/public/DashboardPage/DashboardPage";
+import LoginPage from "../../components/public/LoginPage/LoginPage";
+import NotFoundPage from "../../components/public/NotFound/NotFound";
+import RegisterPage from "../../components/public/RegisterPage/RegisterPage";
 import { routerPaths } from "../../constants/routes";
-import DashboardPage from "./DashboardPage/DashboardPage";
-import LoginPage from "./LoginPage/LoginPage";
-import NotFoundPage from "./NotFound/NotFound";
-import RegisterPage from "./RegisterPage/RegisterPage";
 
 export default [
   {
