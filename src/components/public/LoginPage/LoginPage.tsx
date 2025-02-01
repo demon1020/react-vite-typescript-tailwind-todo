@@ -1,8 +1,7 @@
-// pages/LoginPage.tsx
 import { useNavigate } from "react-router-dom";
-import api from "../../../services/ApiService"; // Import the api instance
-import useLoginStore from "../../../store/useLoginStore"; // Zustand login store
-import useSessionStore from "../../../store/useSessionStore"; // Zustand session store
+import api from "../../../services/ApiService";
+import useLoginStore from "../../../store/useLoginStore";
+import useSessionStore from "../../../store/useSessionStore";
 import { routerPaths } from "../../../constants/routes";
 import { apiUrls } from "../../../constants/apiUrls";
 
@@ -17,9 +16,10 @@ export default function LoginPage() {
     setPassword,
     setErrors,
     setIsLoading,
+    setUserDetails,
   } = useLoginStore();
 
-  const { setAccessToken, setRefreshToken } = useSessionStore(); // Access session store
+  const { setAccessToken, setRefreshToken } = useSessionStore();
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
@@ -39,38 +39,38 @@ export default function LoginPage() {
     console.log("Sending login request with:", { username, password });
 
     try {
-      // Making the API call
       const data = await api.post<{
+        id: number;
+        username: string;
+        email: string;
+        firstName: string;
+        lastName: string;
+        gender: string;
+        image: string;
         accessToken: string;
         refreshToken: string;
-      }>(
-        apiUrls.LOGIN, // Endpoint for login
-        {
-          username,
-          password,
-          expiresInMins: 30, // Optional, can adjust
-        }
-      );
+      }>(apiUrls.LOGIN, { username, password, expiresInMins: 30 });
 
       console.log("Login successful. Response received:", data);
 
       setIsLoading(false);
 
-      // Store the tokens in Zustand store
+      // Store the tokens
       setAccessToken(data.accessToken);
       setRefreshToken(data.refreshToken);
-      console.log("Access token and refresh token saved in Zustand store.");
 
-      // Store the token using Api's method (optional)
+      // Store user details
+      setUserDetails({
+        email: data.email,
+        firstName: data.firstName,
+        image: data.image,
+      });
+
       api.setToken(data.accessToken);
-
-      // Navigate to the dashboard
       navigate(routerPaths.DASHBOARD_PAGE);
     } catch (error) {
       setIsLoading(false);
       console.error("Login failed:", error);
-
-      // Error handling if the API call fails
       setErrors({ apiError: "Login failed. Please try again." });
     }
   };
