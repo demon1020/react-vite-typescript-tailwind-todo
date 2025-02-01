@@ -2,13 +2,13 @@ import LogoutDialog from "../../../components/shared/LogoutDialog";
 
 interface SidebarProps {
   activePage: string;
-  goToLogin: () => void;
+  logout: () => void;
   setActivePage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function Sidebar({
   activePage,
-  goToLogin,
+  logout,
   setActivePage,
 }: SidebarProps) {
   return (
@@ -32,7 +32,7 @@ export default function Sidebar({
           Task Listings
         </li>
 
-        <LogoutDialog onConfirm={goToLogin} />
+        <LogoutDialog onConfirm={logout} />
       </ul>
     </div>
   );

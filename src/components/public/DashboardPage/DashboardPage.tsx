@@ -6,6 +6,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Settings from "../SettingsPage/SettingsPage";
 import TaskListing from "../TaskPage/TaskPage";
+import useSessionStore from "../../../store/useSessionStore";
 
 const DashboardPage = () => {
   const [activePage, setActivePage] = useState("Task Listings");
@@ -26,12 +27,18 @@ const DashboardPage = () => {
   function goToLogin() {
     navigate(routerPaths.LOGIN_PAGE);
   }
+  const { clearSession } = useSessionStore(); // Access session store
+
+  function logout() {
+    clearSession();
+    goToLogin();
+  }
 
   return (
     <div className="flex h-screen bg-gray-100">
       <Sidebar
         activePage={activePage}
-        goToLogin={goToLogin}
+        logout={logout}
         setActivePage={setActivePage}
       />
       {/* Main Content */}
@@ -46,4 +53,3 @@ const DashboardPage = () => {
 };
 
 export default DashboardPage;
-
