@@ -4,6 +4,7 @@ import api from "../../../services/ApiService"; // Import the api instance
 import useLoginStore from "../../../store/useLoginStore"; // Zustand login store
 import useSessionStore from "../../../store/useSessionStore"; // Zustand session store
 import { routerPaths } from "../../../constants/routes";
+import { apiUrls } from "../../../constants/apiUrls";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ export default function LoginPage() {
         accessToken: string;
         refreshToken: string;
       }>(
-        "/auth/login", // Endpoint for login
+        apiUrls.LOGIN, // Endpoint for login
         {
           username,
           password,

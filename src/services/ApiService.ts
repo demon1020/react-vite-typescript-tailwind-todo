@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-
-const API_BASE_URL = "https://dummyjson.com";
+import { apiUrls } from "../constants/apiUrls";
 
 interface ApiService {
   get<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
@@ -33,7 +32,7 @@ class Api implements ApiService {
     try {
       const response: AxiosResponse<T> = await axios({
         method,
-        url: `${API_BASE_URL}${url}`,
+        url: `${apiUrls.BASE_URL}${url}`,
         data,
         headers: this.getHeaders(),
         ...config,

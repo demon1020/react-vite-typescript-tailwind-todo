@@ -5,6 +5,7 @@ import { routerPaths } from "../../../constants/routes";
 import api from "../../../services/ApiService";
 import useRegisterStore from "../../../store/registerStore";
 import bcrypt from "bcryptjs";
+import { apiUrls } from "../../../constants/apiUrls";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ export default function RegisterPage() {
       const hashedPassword = await bcrypt.hash(password, 10);
 
       // Call the registration API
-      const response = await api.post("/users/add", {
+      const response = await api.post(apiUrls.REGISTER, {
         username,
         email,
         password: hashedPassword, // Send the hashed password

@@ -4,6 +4,7 @@ import useSettingsStore from "../../../store/useUserStore"; // Zustand store
 import { toast } from "react-toastify"; // Import toast
 import "react-toastify/dist/ReactToastify.css"; // Import toast styles
 import bcrypt from "bcryptjs";
+import { apiUrls } from "../../../constants/apiUrls";
 
 const SettingsPage = () => {
   const {
@@ -52,7 +53,7 @@ const SettingsPage = () => {
 
       // Perform the API call to update the user
       const data = await api.put<{ message: string }>(
-        `/users/1`, // Assuming the user's ID is 2 for update
+        apiUrls.UPDATE_USER, // Assuming the user's ID is 1 for update
         {
           username,
           email,
