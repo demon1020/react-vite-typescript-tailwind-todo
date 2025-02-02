@@ -36,6 +36,10 @@ const useLogin = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const navigateToRegisterPage = async () => {
+    navigate(routerPaths.REGISTER_PAGE);
+  };
+
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validateForm()) return;
@@ -92,6 +96,7 @@ const useLogin = () => {
     setUsername,
     setPassword,
     handleLogin,
+    navigateToRegisterPage,
   };
 };
 

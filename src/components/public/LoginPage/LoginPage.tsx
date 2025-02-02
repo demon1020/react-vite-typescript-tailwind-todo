@@ -1,10 +1,6 @@
-import { useNavigate } from "react-router-dom";
-import { routerPaths } from "../../../constants/routes";
 import useLogin from "../../../hooks/useLogin"; // Import custom hook
 
 export default function LoginPage() {
-  const navigate = useNavigate();
-
   const {
     username,
     password,
@@ -13,6 +9,7 @@ export default function LoginPage() {
     setUsername,
     setPassword,
     handleLogin,
+    navigateToRegisterPage,
   } = useLogin(); // Use the custom hook
 
   return (
@@ -71,7 +68,7 @@ export default function LoginPage() {
           <span className="text-gray-600">Don't have an account? </span>
           <button
             className="text-blue-500"
-            onClick={() => navigate(routerPaths.REGISTER_PAGE)}
+            onClick={() => navigateToRegisterPage}
           >
             Register
           </button>

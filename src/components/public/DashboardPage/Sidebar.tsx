@@ -1,4 +1,4 @@
-import ConfirmationDialog from "../../../components/shared/LogoutDialog";
+import ConfirmationDialog from "../../shared/ConfirmationDialog";
 
 interface SidebarProps {
   activePage: string;
