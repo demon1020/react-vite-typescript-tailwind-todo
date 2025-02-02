@@ -1,11 +1,6 @@
-// pages/RegisterPage.tsx
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { routerPaths } from "../../../constants/routes";
-import api from "../../../services/ApiService";
-import useRegisterStore from "../../../store/registerStore";
-import bcrypt from "bcryptjs";
-import { apiUrls } from "../../../constants/apiUrls";
+import { useRegister } from "../../../hooks/useRegister";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -19,54 +14,10 @@ export default function RegisterPage() {
     setEmail,
     setPassword,
     setConfirmPassword,
-    setErrors,
-  } = useRegisterStore();
-
-  // Define loading and API error states
-  const [loading, setLoading] = useState(false);
-  const [apiError, setApiError] = useState<string | null>(null);
-
-  const validateForm = (): boolean => {
-    const newErrors: Record<string, string> = {};
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (username.length < 3)
-      newErrors.username = "Username must be at least 3 characters";
-    if (!emailRegex.test(email)) newErrors.email = "Invalid email address";
-    if (password.length < 6)
-      newErrors.password = "Password must be at least 6 characters";
-    if (password !== confirmPassword)
-      newErrors.confirmPassword = "Passwords do not match";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-
-    setLoading(true);
-    setApiError(null);
-
-    try {
-      // Hash the password before sending it to the API
-      const hashedPassword = await bcrypt.hash(password, 10);
-
-      // Call the registration API
-      const response = await api.post(apiUrls.REGISTER, {
-        username,
-        email,
-        password: hashedPassword, // Send the hashed password
-      });
-
-      console.log("User registered:", response);
-      navigate(routerPaths.LOGIN_PAGE);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      setApiError(error?.response?.data?.message || "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  };
+    loading,
+    apiError,
+    handleRegister,
+  } = useRegister();
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-base-100">
