@@ -66,10 +66,7 @@ export default function LoginPage() {
 
         <div className="text-center mt-2">
           <span className="text-gray-600">Don't have an account? </span>
-          <button
-            className="text-blue-500"
-            onClick={() => navigateToRegisterPage}
-          >
+          <button className="text-blue-500" onClick={navigateToRegisterPage}>
             Register
           </button>
         </div>

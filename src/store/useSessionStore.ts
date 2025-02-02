@@ -27,7 +27,9 @@ const useSessionStore = create<SessionState>(
       localStorage.removeItem("refreshToken");
 
       // Optionally, clear all data in localStorage (not recommended if you have other important data in localStorage)
-      localStorage.clear();
+      // localStorage.clear();
+      localStorage.removeItem("login-storage");
+      localStorage.removeItem("notifications");
     },
   })
 );
