@@ -1,12 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import api from "../../../services/ApiService";
-import useLoginStore from "../../../store/useLoginStore";
-import useSessionStore from "../../../store/useSessionStore";
 import { routerPaths } from "../../../constants/routes";
-import { apiUrls } from "../../../constants/apiUrls";
+import useLogin from "../../../hooks/useLogin"; // Import custom hook
 
 export default function LoginPage() {
   const navigate = useNavigate();
+
   const {
     username,
     password,
@@ -14,66 +12,8 @@ export default function LoginPage() {
     isLoading,
     setUsername,
     setPassword,
-    setErrors,
-    setIsLoading,
-    setUserDetails,
-  } = useLoginStore();
-
-  const { setAccessToken, setRefreshToken } = useSessionStore();
-
-  const validateForm = (): boolean => {
-    const newErrors: Record<string, string> = {};
-    if (username.length < 3)
-      newErrors.username = "Username must be at least 3 characters";
-    if (password.length < 6)
-      newErrors.password = "Password must be at least 6 characters";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-
-    setIsLoading(true);
-    console.log("Sending login request with:", { username, password });
-
-    try {
-      const data = await api.post<{
-        id: number;
-        username: string;
-        email: string;
-        firstName: string;
-        lastName: string;
-        gender: string;
-        image: string;
-        accessToken: string;
-        refreshToken: string;
-      }>(apiUrls.LOGIN, { username, password, expiresInMins: 30 });
-
-      console.log("Login successful. Response received:", data);
-
-      setIsLoading(false);
-
-      // Store the tokens
-      setAccessToken(data.accessToken);
-      setRefreshToken(data.refreshToken);
-
-      // Store user details
-      setUserDetails({
-        email: data.email,
-        firstName: data.firstName,
-        image: data.image,
-      });
-
-      api.setToken(data.accessToken);
-      navigate(routerPaths.DASHBOARD_PAGE);
-    } catch (error) {
-      setIsLoading(false);
-      console.error("Login failed:", error);
-      setErrors({ apiError: "Login failed. Please try again." });
-    }
-  };
+    handleLogin,
+  } = useLogin(); // Use the custom hook
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-base-100">

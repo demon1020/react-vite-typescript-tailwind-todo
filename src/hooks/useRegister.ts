@@ -9,7 +9,7 @@ import {
   validateConfirmPassword,
 } from "../utils/validateFields";
 import { apiUrls } from "../constants/apiUrls";
-import api from "../services/ApiService";
+import api from "../services/apiService";
 import { useNavigate } from "react-router-dom";
 import { routerPaths } from "../constants/routes";
 

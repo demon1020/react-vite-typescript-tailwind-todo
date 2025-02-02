@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface LoginState {
   username: string;
@@ -20,33 +21,12 @@ interface LoginState {
     firstName: string;
     image: string;
   }) => void;
-  resetState: () => void; // To reset state on logout
+  resetState: () => void;
 }
 
-const useLoginStore = create<LoginState>((set) => ({
-  username: "",
-  password: "",
-  email: "",
-  firstName: "",
-  image: "",
-  errors: {},
-  isLoading: false,
-
-  setUsername: (username) => set({ username }),
-  setPassword: (password) => set({ password }),
-  setEmail: (email) => set({ email }),
-  setFirstName: (firstName) => set({ firstName }),
-  setImage: (image) => set({ image }),
-  setErrors: (errors) => set({ errors }),
-  setIsLoading: (isLoading) => set({ isLoading }),
-
-  // Set user details after successful login
-  setUserDetails: ({ email, firstName, image }) =>
-    set({ email, firstName, image }),
-
-  // Reset state on logout
-  resetState: () =>
-    set({
+const useLoginStore = create<LoginState>()(
+  persist(
+    (set) => ({
       username: "",
       password: "",
       email: "",
@@ -54,7 +34,46 @@ const useLoginStore = create<LoginState>((set) => ({
       image: "",
       errors: {},
       isLoading: false,
+
+      setUsername: (username) => set({ username }),
+      setPassword: (password) => set({ password }),
+      setEmail: (email) => set({ email }),
+      setFirstName: (firstName) => set({ firstName }),
+      setImage: (image) => set({ image }),
+      setErrors: (errors) => set({ errors }),
+      setIsLoading: (isLoading) => set({ isLoading }),
+
+      setUserDetails: ({ email, firstName, image }) =>
+        set({ email, firstName, image }),
+
+      resetState: () =>
+        set({
+          username: "",
+          password: "",
+          email: "",
+          firstName: "",
+          image: "",
+          errors: {},
+          isLoading: false,
+        }),
     }),
-}));
+    {
+      name: "login-storage", // The name of the storage key in localStorage
+      storage: {
+        getItem: (name: string) => {
+          const item = localStorage.getItem(name);
+          return item ? JSON.parse(item) : null;
+        },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        setItem: (name: string, value: any) => {
+          localStorage.setItem(name, JSON.stringify(value));
+        },
+        removeItem: (name: string) => {
+          localStorage.removeItem(name);
+        },
+      },
+    }
+  )
+);
 
 export default useLoginStore;

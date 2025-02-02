@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import api from "../services/ApiService"; // Import API service
+import api from "../services/apiService"; // Import API service
 import { apiUrls } from "../constants/apiUrls";
 
 interface Task {

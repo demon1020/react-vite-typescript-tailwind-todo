@@ -1,7 +1,7 @@
 // src/pages/SettingsPage.tsx
 
 import { useEffect } from "react";
-import api from "../../../services/ApiService"; // Import the api instance
+import api from "../../../services/apiService"; // Import the api instance
 import useSettingsStore from "../../../store/useUserStore"; // Zustand store
 import { toast } from "react-toastify"; // Import toast
 import "react-toastify/dist/ReactToastify.css"; // Import toast styles
