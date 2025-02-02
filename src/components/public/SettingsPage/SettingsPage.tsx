@@ -1,3 +1,5 @@
+// src/pages/SettingsPage.tsx
+
 import { useEffect } from "react";
 import api from "../../../services/ApiService"; // Import the api instance
 import useSettingsStore from "../../../store/useUserStore"; // Zustand store
@@ -5,6 +7,7 @@ import { toast } from "react-toastify"; // Import toast
 import "react-toastify/dist/ReactToastify.css"; // Import toast styles
 import bcrypt from "bcryptjs";
 import { apiUrls } from "../../../constants/apiUrls";
+import useTheme from "../../../hooks/useTheme"; // Import the useTheme hook
 
 const SettingsPage = () => {
   const {
@@ -19,6 +22,8 @@ const SettingsPage = () => {
     setErrors,
     setIsLoading,
   } = useSettingsStore();
+
+  const { theme, toggleTheme } = useTheme(); // Use the custom theme hook
 
   useEffect(() => {
     // Ideally, fetch the user data on page load and set it in the store
@@ -86,7 +91,7 @@ const SettingsPage = () => {
   };
 
   return (
-    <div className="p-6 bg-white shadow rounded-lg m-5">
+    <div className="p-6 bg-base-100 shadow-lg rounded-lg">
       <h2 className="text-2xl font-bold mb-4">Settings</h2>
 
       <form onSubmit={handleSubmit}>
@@ -96,7 +101,7 @@ const SettingsPage = () => {
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full p-2 border rounded-lg"
+            className="input input-bordered w-full"
           />
           {errors.username && (
             <p className="text-red-500 text-sm">{errors.username}</p>
@@ -109,7 +114,7 @@ const SettingsPage = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 border rounded-lg"
+            className="input input-bordered w-full"
           />
           {errors.email && (
             <p className="text-red-500 text-sm">{errors.email}</p>
@@ -122,7 +127,7 @@ const SettingsPage = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 border rounded-lg"
+            className="input input-bordered w-full"
           />
           {errors.password && (
             <p className="text-red-500 text-sm">{errors.password}</p>
@@ -133,18 +138,15 @@ const SettingsPage = () => {
           <label className="block text-gray-600">Theme</label>
           <input
             type="checkbox"
-            value="synthwave"
-            className="toggle theme-controller"
+            checked={theme === "dark"}
+            onClick={toggleTheme}
+            className="toggle toggle-primary"
           />
         </div>
 
         <div className="mb-4">
           <label className="block text-gray-600">Notification</label>
-          <input
-            type="checkbox"
-            value="synthwave"
-            className="toggle theme-controller"
-          />
+          <input type="checkbox" className="toggle toggle-primary" />
         </div>
 
         {errors.apiError && (
@@ -153,7 +155,7 @@ const SettingsPage = () => {
 
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded-lg mt-4"
+          className="btn btn-primary w-full"
           disabled={isLoading}
         >
           {isLoading ? (

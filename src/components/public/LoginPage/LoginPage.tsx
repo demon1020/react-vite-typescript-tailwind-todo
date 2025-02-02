@@ -76,8 +76,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-6 rounded-lg shadow-md w-96">
+    <div className="flex items-center justify-center min-h-screen bg-base-100">
+      <div className="card w-96 bg-base-300 p-6 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
         <form onSubmit={handleLogin}>
           <div className="mb-4">
@@ -86,7 +86,8 @@ export default function LoginPage() {
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="input input-bordered w-full"
+              placeholder="Enter your username"
             />
             {errors.username && (
               <p className="text-red-500 text-sm">{errors.username}</p>
@@ -99,7 +100,8 @@ export default function LoginPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="input input-bordered w-full"
+              placeholder="Enter your password"
             />
             {errors.password && (
               <p className="text-red-500 text-sm">{errors.password}</p>
@@ -112,17 +114,19 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
+            className="btn btn-primary w-full"
             disabled={isLoading}
           >
             {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
+
         <div className="text-center mt-4">
           <a href="#" className="text-blue-500 hover:underline">
             Forgot Password?
           </a>
         </div>
+
         <div className="text-center mt-2">
           <span className="text-gray-600">Don't have an account? </span>
           <button

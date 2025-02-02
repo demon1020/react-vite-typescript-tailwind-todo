@@ -3,7 +3,7 @@ const LogoutDialog = ({ onConfirm }: { onConfirm: () => void }) => {
     <div>
       {/* Button to open the modal */}
       <li
-        className="cursor-pointer py-2 text-red-300"
+        className="cursor-pointer py-2 text-red-400 hover:text-red-500"
         onClick={() => {
           (
             document.getElementById("logout_modal") as HTMLDialogElement

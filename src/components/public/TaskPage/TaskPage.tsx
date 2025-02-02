@@ -11,7 +11,7 @@ const TaskList = () => {
   }, [page, fetchTasks]);
 
   return (
-    <div className="p-6 bg-white shadow rounded-lg">
+    <div className="p-6 bg-base-100 shadow-lg rounded-lg">
       <h2 className="text-2xl font-bold mb-4">Task List</h2>
 
       {isLoading && (
@@ -19,11 +19,11 @@ const TaskList = () => {
       )}
       {!isLoading && tasks.length === 0 && <p>No tasks found.</p>}
 
-      <ul>
+      <ul className="space-y-4">
         {tasks.map((task) => (
           <li
             key={task.id}
-            className="mb-3 p-4 border rounded-lg flex justify-between items-center"
+            className="p-4 border border-base-300 rounded-lg flex justify-between items-center shadow-sm"
           >
             <div>
               <h3 className="font-semibold text-lg">{task.todo}</h3>
@@ -38,9 +38,9 @@ const TaskList = () => {
               <p className="text-sm text-gray-500">Due: {task.dueDate}</p>
             </div>
             <button
-              className={`px-4 py-2 rounded ${
-                task.completed ? "bg-gray-300" : "bg-blue-500 text-white"
-              }`}
+              className={`btn ${
+                task.completed ? "btn-disabled" : "btn-primary"
+              } px-4 py-2`}
               onClick={() => toggleTaskStatus(task.id)}
             >
               {task.completed ? "Mark as Pending" : "Mark as Completed"}
@@ -49,7 +49,7 @@ const TaskList = () => {
         ))}
       </ul>
 
-      <div className="join grid grid-cols-3 mt-4">
+      <div className="join mt-4">
         <button
           className="join-item btn btn-outline"
           onClick={() => setPage((prev) => Math.max(prev - 1, 0))}

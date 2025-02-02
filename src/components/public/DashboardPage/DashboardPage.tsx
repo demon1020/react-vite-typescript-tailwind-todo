@@ -27,6 +27,7 @@ const DashboardPage = () => {
   function goToLogin() {
     navigate(routerPaths.LOGIN_PAGE);
   }
+
   const { clearSession } = useSessionStore(); // Access session store
 
   function logout() {
@@ -35,14 +36,14 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-base-200">
       <Sidebar
         activePage={activePage}
         logout={logout}
         setActivePage={setActivePage}
       />
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col bg-base-100 rounded-lg shadow-md">
         <Header />
         {/* Body */}
         <div className="flex-1 p-6">{renderContent()}</div>

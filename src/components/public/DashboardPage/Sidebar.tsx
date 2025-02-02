@@ -12,28 +12,34 @@ export default function Sidebar({
   setActivePage,
 }: SidebarProps) {
   return (
-    <div className="w-64 bg-gray-500 text-white p-5">
-      <h2 className="text-xl font-bold mb-5">Dashboard</h2>
-      <ul>
+    <div className="w-64 bg-base-300 text-white p-5 shadow-lg">
+      <h2 className="text-xl font-bold mb-5 text-center">Dashboard</h2>
+      <ul className="space-y-3">
         <li
-          className={`cursor-pointer py-2 ${
-            activePage === "Settings" ? "font-bold" : ""
-          }`}
-          onClick={() => setActivePage("Settings")}
-        >
-          Settings
-        </li>
-        <li
-          className={`cursor-pointer py-2 ${
-            activePage === "Task Listings" ? "font-bold" : ""
+          className={`cursor-pointer py-2 px-4 rounded-lg transition-all duration-300 ${
+            activePage === "Task Listings"
+              ? "bg-blue-600 text-white"
+              : "hover:bg-blue-500"
           }`}
           onClick={() => setActivePage("Task Listings")}
         >
           Task Listings
         </li>
-
-        <LogoutDialog onConfirm={logout} />
+        <li
+          className={`cursor-pointer py-2 px-4 rounded-lg transition-all duration-300 ${
+            activePage === "Settings"
+              ? "bg-blue-600 text-white"
+              : "hover:bg-blue-500"
+          }`}
+          onClick={() => setActivePage("Settings")}
+        >
+          Settings
+        </li>
       </ul>
+
+      <div className="mt-5">
+        <LogoutDialog onConfirm={logout} />
+      </div>
     </div>
   );
 }

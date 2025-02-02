@@ -69,18 +69,21 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-6 rounded-lg shadow-md w-96">
+    <div className="flex items-center justify-center min-h-screen bg-base-100">
+      <div className="bg-base-300 p-6 rounded-lg shadow-md w-96">
         <h2 className="text-2xl font-bold text-center mb-4">Register</h2>
         <form onSubmit={handleRegister}>
           <div className="mb-4">
-            <label className="block mb-1 text-gray-600">Username</label>
+            <label className="label">
+              <span className="label-text">Username</span>
+            </label>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="input input-bordered w-full"
               disabled={loading}
+              placeholder="Enter your username"
             />
             {errors.username && (
               <p className="text-red-500 text-sm">{errors.username}</p>
@@ -88,13 +91,16 @@ export default function RegisterPage() {
           </div>
 
           <div className="mb-4">
-            <label className="block mb-1 text-gray-600">Email</label>
+            <label className="label">
+              <span className="label-text">Email</span>
+            </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="input input-bordered w-full"
               disabled={loading}
+              placeholder="Enter your email"
             />
             {errors.email && (
               <p className="text-red-500 text-sm">{errors.email}</p>
@@ -102,13 +108,16 @@ export default function RegisterPage() {
           </div>
 
           <div className="mb-4">
-            <label className="block mb-1 text-gray-600">Password</label>
+            <label className="label">
+              <span className="label-text">Password</span>
+            </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="input input-bordered w-full"
               disabled={loading}
+              placeholder="Enter your password"
             />
             {errors.password && (
               <p className="text-red-500 text-sm">{errors.password}</p>
@@ -116,13 +125,16 @@ export default function RegisterPage() {
           </div>
 
           <div className="mb-4">
-            <label className="block mb-1 text-gray-600">Confirm Password</label>
+            <label className="label">
+              <span className="label-text">Confirm Password</span>
+            </label>
             <input
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="input input-bordered w-full"
               disabled={loading}
+              placeholder="Confirm your password"
             />
             {errors.confirmPassword && (
               <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
@@ -131,11 +143,11 @@ export default function RegisterPage() {
 
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition mt-6"
+            className="btn btn-primary w-full mt-6"
             disabled={loading}
           >
             {loading ? (
-              <span className="loading loading-spinner loading-lg"></span>
+              <span className="loading loading-spinner"></span>
             ) : (
               "Register"
             )}
