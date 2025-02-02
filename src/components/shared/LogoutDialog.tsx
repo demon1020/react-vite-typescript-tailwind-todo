@@ -1,49 +1,72 @@
-const LogoutDialog = ({ onConfirm }: { onConfirm: () => void }) => {
+import { useState } from "react";
+
+interface ConfirmationDialogProps {
+  title: string;
+  message: string;
+  confirmText: string;
+  cancelText: string;
+  onConfirm: () => void;
+  onCancel: () => void;
+}
+
+const ConfirmationDialog = ({
+  title,
+  message,
+  confirmText,
+  cancelText,
+  onConfirm,
+  onCancel,
+}: ConfirmationDialogProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpen = () => setIsOpen(true);
+  const handleClose = () => setIsOpen(false);
+
   return (
     <div>
       {/* Button to open the modal */}
       <li
         className="cursor-pointer py-2 text-red-400 hover:text-red-500"
-        onClick={() => {
-          (
-            document.getElementById("logout_modal") as HTMLDialogElement
-          )?.showModal();
-        }}
+        onClick={handleOpen}
       >
-        Logout
+        {title}
       </li>
 
-      {/* Logout Confirmation Modal */}
-      <dialog id="logout_modal" className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg text-gray-700">Confirm Logout</h3>
-          <p className="py-4 text-gray-500">
-            Are you sure you want to log out?
-          </p>
+      {/* Confirmation Modal */}
+      {isOpen && (
+        <dialog open className="modal">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg text-gray-700">{title}</h3>
+            <p className="py-4 text-gray-500">{message}</p>
 
-          <div className="modal-action">
-            {/* Cancel Button */}
-            <form method="dialog">
-              <button className="btn btn-secondary">Cancel</button>
-            </form>
+            <div className="modal-action">
+              {/* Cancel Button */}
+              <button
+                className="btn btn-secondary"
+                onClick={() => {
+                  onCancel(); // Call the cancel function
+                  handleClose();
+                }}
+              >
+                {cancelText}
+              </button>
 
-            {/* Confirm Logout Button */}
-            <button
-              className="btn btn-error"
-              onClick={() => {
-                onConfirm(); // Call logout function
-                (
-                  document.getElementById("logout_modal") as HTMLDialogElement
-                )?.close();
-              }}
-            >
-              Confirm Logout
-            </button>
+              {/* Confirm Button */}
+              <button
+                className="btn btn-error"
+                onClick={() => {
+                  onConfirm(); // Call the confirm function
+                  handleClose();
+                }}
+              >
+                {confirmText}
+              </button>
+            </div>
           </div>
-        </div>
-      </dialog>
+        </dialog>
+      )}
     </div>
   );
 };
 
-export default LogoutDialog;
+export default ConfirmationDialog;

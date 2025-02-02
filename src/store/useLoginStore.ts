@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface LoginState {
+  id: number;
   username: string;
   password: string;
   email: string;
@@ -9,6 +10,7 @@ interface LoginState {
   image: string;
   errors: Record<string, string>;
   isLoading: boolean;
+  setId: (id: number) => void;
   setUsername: (username: string) => void;
   setPassword: (password: string) => void;
   setEmail: (email: string) => void;
@@ -17,6 +19,7 @@ interface LoginState {
   setErrors: (errors: Record<string, string>) => void;
   setIsLoading: (isLoading: boolean) => void;
   setUserDetails: (userData: {
+    id: number;
     email: string;
     firstName: string;
     image: string;
@@ -27,6 +30,7 @@ interface LoginState {
 const useLoginStore = create<LoginState>()(
   persist(
     (set) => ({
+      id: 0,
       username: "",
       password: "",
       email: "",
@@ -35,6 +39,7 @@ const useLoginStore = create<LoginState>()(
       errors: {},
       isLoading: false,
 
+      setId: (id) => set({ id }),
       setUsername: (username) => set({ username }),
       setPassword: (password) => set({ password }),
       setEmail: (email) => set({ email }),
@@ -43,11 +48,12 @@ const useLoginStore = create<LoginState>()(
       setErrors: (errors) => set({ errors }),
       setIsLoading: (isLoading) => set({ isLoading }),
 
-      setUserDetails: ({ email, firstName, image }) =>
-        set({ email, firstName, image }),
+      setUserDetails: ({ id, email, firstName, image }) =>
+        set({ id, email, firstName, image }),
 
       resetState: () =>
         set({
+          id: 0,
           username: "",
           password: "",
           email: "",

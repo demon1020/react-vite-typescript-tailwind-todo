@@ -1,4 +1,4 @@
-import LogoutDialog from "../../../components/shared/LogoutDialog";
+import ConfirmationDialog from "../../../components/shared/LogoutDialog";
 
 interface SidebarProps {
   activePage: string;
@@ -38,7 +38,14 @@ export default function Sidebar({
       </ul>
 
       <div className="mt-5">
-        <LogoutDialog onConfirm={logout} />
+        <ConfirmationDialog
+          title="Confirm Logout"
+          message="Are you sure you want to log out?"
+          confirmText="Confirm Logout"
+          cancelText="Cancel"
+          onConfirm={logout}
+          onCancel={() => {}}
+        />
       </div>
     </div>
   );

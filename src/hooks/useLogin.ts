@@ -66,6 +66,7 @@ const useLogin = () => {
 
       // Store user details
       setUserDetails({
+        id: data.id,
         email: data.email,
         firstName: data.firstName,
         image: data.image,

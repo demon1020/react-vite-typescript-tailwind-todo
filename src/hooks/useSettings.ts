@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import useSettingsStore from "../store/useUserStore"; // Adjust path as needed
+import useLoginStore from "../store/useLoginStore"; // Ensure the path is correct
 import bcrypt from "bcryptjs";
 import { apiUrls } from "../constants/apiUrls";
 import api from "../services/ApiService";
@@ -12,22 +12,30 @@ import {
 
 const useSettings = () => {
   const {
+    id,
     username,
     email,
     password,
-    errors,
-    isLoading,
     setUsername,
     setEmail,
     setPassword,
     setErrors,
     setIsLoading,
-  } = useSettingsStore();
+    isLoading,
+    errors,
+  } = useLoginStore();
 
   useEffect(() => {
-    setUsername("emilys");
-    setEmail("emily.johnson@x.dummyjson.com");
-    setPassword("emilyspass");
+    // Retrieve stored user details when component mounts
+    const storedUser = JSON.parse(
+      localStorage.getItem("login-storage") || "{}"
+    );
+
+    if (storedUser?.state) {
+      setUsername(storedUser.state.username || "");
+      setEmail(storedUser.state.email || "");
+      setPassword(storedUser.state.password || "");
+    }
   }, [setUsername, setEmail, setPassword]);
 
   const validateForm = (): boolean => {
@@ -53,11 +61,15 @@ const useSettings = () => {
 
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
-      const data = await api.put<{ message: string }>(apiUrls.UPDATE_USER, {
-        username,
-        email,
-        password: hashedPassword,
-      });
+      const data = await api.put<{ message: string }>(
+        `${apiUrls.UPDATE_USER.replace(":id", String(id))}`,
+        {
+          id,
+          username,
+          email,
+          password: hashedPassword,
+        }
+      );
 
       setIsLoading(false);
       toast.success("User updated successfully!");
