@@ -1,3 +1,4 @@
+import { Settings, ListTodoIcon } from "lucide-react";
 import ConfirmationDialog from "../../shared/ConfirmationDialog";
 
 interface SidebarProps {
@@ -13,7 +14,7 @@ export default function Sidebar({
 }: SidebarProps) {
   return (
     <div className="w-64 bg-base-300 text-white p-5 shadow-lg">
-      <h2 className="text-xl font-bold mb-5 text-center">Dashboard</h2>
+      {/* <h2 className="text-xl font-bold mb-5 text-center">Dashboard</h2> */}
       <ul className="space-y-3">
         <li
           className={`cursor-pointer py-2 px-4 rounded-lg transition-all duration-300 ${
@@ -23,7 +24,9 @@ export default function Sidebar({
           }`}
           onClick={() => setActivePage("Task Listings")}
         >
-          Task Listings
+          <div className="flex items-start space-x-2 ">
+            <ListTodoIcon className="h-5 w-5" /> <span>Task Listings</span>
+          </div>
         </li>
         <li
           className={`cursor-pointer py-2 px-4 rounded-lg transition-all duration-300 ${
@@ -33,7 +36,9 @@ export default function Sidebar({
           }`}
           onClick={() => setActivePage("Settings")}
         >
-          Settings
+          <div className="flex items-start space-x-2 ">
+            <Settings className="h-5 w-5" /> <span>Settings</span>
+          </div>
         </li>
       </ul>
 
