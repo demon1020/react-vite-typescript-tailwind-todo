@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { apiUrls } from "../constants/apiUrls";
 import { routerPaths } from "../constants/routes";
-import api from "../services/apiService";
+import api from "../services/ApiService";
 import useLoginStore from "../store/useLoginStore";
 import useSessionStore from "../store/useSessionStore";
 import { validateUsername, validatePassword } from "../utils/validateFields"; // Import validation functions
+import { toast } from "react-toastify";
 
 const useLogin = () => {
   const navigate = useNavigate();
@@ -72,6 +73,8 @@ const useLogin = () => {
 
       api.setToken(data.accessToken);
       navigate(routerPaths.DASHBOARD_PAGE);
+      toast.success("User logged in successfully!");
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       setIsLoading(false);

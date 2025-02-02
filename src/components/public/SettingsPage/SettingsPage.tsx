@@ -1,13 +1,7 @@
-// src/pages/SettingsPage.tsx
-
-import { useEffect } from "react";
-import api from "../../../services/apiService"; // Import the api instance
-import useSettingsStore from "../../../store/useUserStore"; // Zustand store
-import { toast } from "react-toastify"; // Import toast
-import "react-toastify/dist/ReactToastify.css"; // Import toast styles
-import bcrypt from "bcryptjs";
-import { apiUrls } from "../../../constants/apiUrls";
-import useTheme from "../../../hooks/useTheme"; // Import the useTheme hook
+import useNotification from "../../../hooks/useNotification";
+import useSettings from "../../../hooks/useSettings";
+import useTheme from "../../../hooks/useTheme";
+import "react-toastify/dist/ReactToastify.css";
 
 const SettingsPage = () => {
   const {
@@ -19,76 +13,11 @@ const SettingsPage = () => {
     setUsername,
     setEmail,
     setPassword,
-    setErrors,
-    setIsLoading,
-  } = useSettingsStore();
+    handleSubmit,
+  } = useSettings();
 
-  const { theme, toggleTheme } = useTheme(); // Use the custom theme hook
-
-  useEffect(() => {
-    // Ideally, fetch the user data on page load and set it in the store
-    // For demo purposes, we are not fetching from the API
-    setUsername("emilys");
-    setEmail("emily.johnson@x.dummyjson.com");
-    setPassword("emilyspass");
-  }, [setUsername, setEmail, setPassword]);
-
-  const validateForm = (): boolean => {
-    const newErrors: Record<string, string> = {};
-    if (username.length < 3)
-      newErrors.username = "Username must be at least 3 characters";
-    if (!email.includes("@"))
-      newErrors.email = "Please enter a valid email address";
-    if (password.length < 6)
-      newErrors.password = "Password must be at least 6 characters";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!validateForm()) return;
-
-    setIsLoading(true);
-
-    try {
-      // Hash the password before sending it to the API
-      const hashedPassword = await bcrypt.hash(password, 10);
-
-      // Perform the API call to update the user
-      const data = await api.put<{ message: string }>(
-        apiUrls.UPDATE_USER, // Assuming the user's ID is 1 for update
-        {
-          username,
-          email,
-          password: hashedPassword,
-        }
-      );
-
-      setIsLoading(false);
-
-      // Log the response for debugging purposes
-      console.log("API Response:", data);
-
-      // Show a toast notification for success
-      toast.success("User updated successfully!");
-
-      // Redirect to dashboard after success
-      //   navigate(routerPaths.DASHBOARD_PAGE);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      setIsLoading(false);
-      // Log error details for debugging
-      console.error("Error updating user:", error);
-
-      // Show error toast
-      toast.error("Failed to update user. Please try again.");
-
-      // Optional: Set API error message to state (for display in form)
-      setErrors({ apiError: error.message || "Failed to update user" });
-    }
-  };
+  const { theme, toggleTheme } = useTheme();
+  const { notifications, toggleNotifications } = useNotification();
 
   return (
     <div className="p-6 bg-base-100 shadow-lg rounded-lg">
@@ -146,7 +75,12 @@ const SettingsPage = () => {
 
         <div className="mb-4">
           <label className="block text-gray-600">Notification</label>
-          <input type="checkbox" className="toggle toggle-primary" />
+          <input
+            type="checkbox"
+            className="toggle toggle-primary"
+            checked={notifications === "enabled"}
+            onClick={toggleNotifications}
+          />
         </div>
 
         {errors.apiError && (

@@ -9,9 +9,10 @@ import {
   validateConfirmPassword,
 } from "../utils/validateFields";
 import { apiUrls } from "../constants/apiUrls";
-import api from "../services/apiService";
+import api from "../services/ApiService";
 import { useNavigate } from "react-router-dom";
 import { routerPaths } from "../constants/routes";
+import { toast } from "react-toastify";
 
 export const useRegister = () => {
   const {
@@ -73,6 +74,8 @@ export const useRegister = () => {
       });
 
       console.log("User registered:", response);
+      toast.success("User registered successfully!");
+
       // Navigate to the login page after successful registration
       navigate(routerPaths.LOGIN_PAGE);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
