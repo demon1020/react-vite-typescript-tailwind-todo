@@ -21,7 +21,7 @@ const TaskList = () => {
           {[1, 2, 3].map((_, index) => (
             <div
               key={index}
-              className="animate-pulse p-4 border border-base-300 rounded-lg flex justify-between items-center shadow-sm"
+              className="animate-pulse p-4 border border-base-400 rounded-lg flex justify-between items-center shadow-sm"
             >
               <div>
                 <div className="h-5 bg-gray-300 rounded w-32 mb-2"></div>
