@@ -48,7 +48,12 @@ const TaskList = () => {
         </ul>
       )}
 
-      <Pagination page={page} setPage={setPage} skip={skip} total={total} />
+      <Pagination
+        page={page}
+        setPage={setPage}
+        skip={skip === 0 ? 1 : skip}
+        total={total}
+      />
     </div>
   );
 };

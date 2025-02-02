@@ -17,7 +17,8 @@ function Pagination({ page, setPage, skip, total }: PaginationProps) {
       </button>
 
       <span className="flex-1 text-center font-semibold">
-        Page {skip === 0 ? 1 : skip / 3}
+        Page {skip === 0 ? 1 : (skip / 3).toFixed()} of (
+        {(total / 3).toFixed(0)})
       </span>
 
       <button

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import api from "../services/apiService"; // Import API service
+import api from "../services/ApiService"; // Import API service
 import { apiUrls } from "../constants/apiUrls";
 
 interface Task {
@@ -24,7 +24,7 @@ const useTaskStore = create<TaskStore>((set) => ({
   tasks: [],
   total: 0,
   skip: 0,
-  limit: 3,
+  limit: 10,
   isLoading: false,
 
   fetchTasks: async (page = 0) => {
@@ -36,7 +36,7 @@ const useTaskStore = create<TaskStore>((set) => ({
         total: number;
         skip: number;
         limit: number;
-      }>(`${apiUrls.TODOS}?skip=${page * 3}&limit=3`);
+      }>(`${apiUrls.TODOS}?skip=${page === 0 ? 3 : page * 3}&limit=3`);
 
       // Mock due dates (since API doesn't provide it)
       const tasksWithDueDates = response.todos.map((task) => ({
